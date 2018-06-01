@@ -1,3 +1,6 @@
 Scrapy
-
+Django
+djangorestframework
+requests
 # venv/bin/pip install --no-cache-dir -i https://pypi.douban.com/simple -r requirements.txt
+# scrapy crawl douban

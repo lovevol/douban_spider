@@ -6,11 +6,12 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import json
 
+import requests
+
 
 class DoubanSpiderPipeline(object):
 
     def process_item(self, item, spider):
-        with open('data_1.json', 'a') as f:
-            json.dump(dict(item), f, ensure_ascii=False)
-            f.write(',\n')
+        data = dict(item)
+        requests.post(url='http://localhost:8000/books/', json=data)
         return item

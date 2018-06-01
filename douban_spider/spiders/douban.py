@@ -33,7 +33,15 @@ class DouBanSpider(scrapy.Spider):
             name2 = book.xpath('.//div[@class="info"]/h2/a/span/text()').extract_first(default='').rstrip('\n').lstrip('\n').strip()
             item['name'] = name1 + name2
             item['pub'] = book.xpath('.//div[@class="info"]/div[@class="pub"]/text()').extract_first().rstrip('\n').lstrip('\n').strip()
-            item['star'] = book.xpath('.//div[@class="info"]/div[@class="star clearfix"]/span[@class="rating_nums"]/text()').extract_first().rstrip('\n').lstrip(
-                '\n').strip()
+            item['star'] = book.xpath('.//div[@class="info"]/div[@class="star clearfix"]/span[@class="rating_nums"]/text()').\
+                extract_first().rstrip('\n').lstrip('\n').strip()
             item['desc'] = book.xpath('.//div[@class="info"]/p/text()').extract_first().rstrip('\n').lstrip('\n').strip()
+            item['category'] = response.xpath('//div[@id="content"]/h1/text()').extract_first()
             yield item
+
+        for url in response.xpath('//div[@class="paginator"]/a/@href').extract():
+            if url is not None:
+                url = 'https://book.douban.com' + url
+                print(url)
+                yield Request(url, callback=self.parse, dont_filter=True, headers=self.headers)
+
