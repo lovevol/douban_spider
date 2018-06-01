@@ -10,13 +10,13 @@ import scrapy
 from scrapy import Request
 
 from douban_spider.items import DouBanBookItem
-
+URL_SET = set()
 
 class DouBanSpider(scrapy.Spider):
     name = "douban"
     allowed_domains = ["www.douban.com"]
     start_urls = [
-        "https://book.douban.com/tag/互联网"
+        "https://book.douban.com/tag/互联网/"
     ]
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36',
@@ -42,6 +42,8 @@ class DouBanSpider(scrapy.Spider):
         for url in response.xpath('//div[@class="paginator"]/a/@href').extract():
             if url is not None:
                 url = 'https://book.douban.com' + url
-                print(url)
-                yield Request(url, callback=self.parse, dont_filter=True, headers=self.headers)
+                if url not in URL_SET:
+                    URL_SET.add(url)
+                    yield Request(url, callback=self.parse, dont_filter=True, headers=self.headers)
+
 

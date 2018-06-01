@@ -4,9 +4,52 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+import random
 
 from scrapy import signals
 
+IP_POOL = [
+    '123.101.110.66:61234',
+    '61.135.217.7:80',
+    '123.57.217.208:3128',
+    '122.114.31.177:808',
+    '218.241.234.48:8080',
+    '183.30.201.224:9797',
+    '114.236.107.213:61234',
+    '1.196.161.241:9999',
+    '125.122.116.112:6666',
+    '223.145.228.99:6666',
+    '114.226.105.66:808',
+    '116.213.98.6:8080',
+    '27.40.133.19:61234',
+    '36.248.92.32:8118',
+    '114.239.123.51:61234',
+    '113.86.222.94:60443',
+    '171.217.136.242:808',
+    '49.79.194.214:61234',
+    '112.95.207.89:9999',
+    '223.145.229.19:6666',
+    '117.43.1.251:808',
+    '123.101.110.66:61234',
+    '61.135.217.7:80',
+    '122.114.31.177:808',
+    '125.121.121.164:6666',
+    '220.169.232.246:808',
+    '123.180.69.195:6666',
+    '114.236.107.213:61234',
+    '125.122.116.112:6666',
+    '223.145.228.99:6666',
+    '114.226.105.66:808',
+    '117.36.103.170:8118',
+    '116.213.98.6:8080',
+    '27.40.133.19:61234',
+    '113.240.226.164:8080',
+    '36.248.92.32:8118',
+    '114.239.123.51:61234',
+    '180.113.40.185:61234',
+    '222.185.137.165:6666',
+    '117.90.99.179:33021',
+]
 
 class DoubanSpiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -78,6 +121,9 @@ class DoubanSpiderDownloaderMiddleware(object):
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
+        ip = random.choice(IP_POOL)
+        request.meta["proxy"] = "http://" + ip
+        print(ip)
         return None
 
     def process_response(self, request, response, spider):
