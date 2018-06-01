@@ -12,3 +12,11 @@ class DoubanSpiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+
+class DouBanBookItem(scrapy.Item):
+    name = scrapy.Field()
+    pub = scrapy.Field()
+    star = scrapy.Field()
+    desc = scrapy.Field()
+    category = scrapy.Field()
